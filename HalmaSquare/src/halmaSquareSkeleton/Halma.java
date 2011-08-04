@@ -8,6 +8,10 @@ import java.awt.*;
 //------------------------------------------------------------------------------
 public class Halma extends GameGrid implements GGMouseListener {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int nbPlayers = 2;
 	private boolean jumpModeOn = false; 
 	// needed if stone can still move after a jump
@@ -115,10 +119,22 @@ public class Halma extends GameGrid implements GGMouseListener {
 	 * startingLocations are the others endLocations
 	 */
 	private void initializePlayers() {
+		@SuppressWarnings("unchecked")
 		ArrayList<Location>[] startLocations = new ArrayList[nbPlayers];
 		
-		for (int i = 0; i < nbPlayers; i++)
+		for (int i = 0; i < nbPlayers; i++) {
 			startLocations[i] = new ArrayList<Location>();
+		}
+		int l = 4;
+		for (int j = 0; j < 5; j++) {
+			for (int k = l; k >= 0; k--) {
+				startLocations[0].add(new Location(j, k));
+				startLocations[1].add(new Location(15-j, 15-k));
+			}
+			if (j != 0) l--;
+		}
+		
+		
 		
 		/* TODO: Initialize startLocations[i] and endLocations[i]
 		 * with the according locations (See screenshot).
@@ -156,6 +172,22 @@ public class Halma extends GameGrid implements GGMouseListener {
 	 */
 	private ArrayList<Location> getInterjacent(Location loc1, Location loc2) {
 		ArrayList<Location> interjacentLocs = new ArrayList<Location>();
+		int orthoPos;
+		int startPos;
+		int endPos;
+		
+		if (loc1.x == loc2.x) {
+			orthoPos = loc1.x;
+			startPos = loc1.y;
+			endPos = loc2.y;
+		} else {
+			orthoPos = loc1.y;
+			startPos = loc1.x;
+			endPos = loc2.x;
+			for (int i = startPos; i <= endPos; i++) {
+				interjacentLocs.add(new Location(orthoPos, i));
+			}
+		}
 		
 		/*
 		 * TODO: put all locations between loc1 and loc2 into interjacentLocs.

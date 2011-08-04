@@ -1,8 +1,10 @@
 package halmaSquareSkeleton;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.util.ArrayList;
 
+import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.Location;
 
 public class HalmaPlayer {
@@ -10,6 +12,7 @@ public class HalmaPlayer {
 	private Halma halmaBoard;
 	private ArrayList<Location> startLocations;
 	private ArrayList<Location> endLocations;
+	private ArrayList<HalmaStone> halmaStones = new ArrayList<HalmaStone>();
 	
 	public HalmaPlayer(Halma halmaBoard, HalmaColor color, 
 			ArrayList<Location> startLocations, ArrayList<Location> endLocations) {
@@ -29,8 +32,14 @@ public class HalmaPlayer {
 		 * startLocations. Also fill the corresponding cell with a color.
 		 * 
 		 * Hint: You can experiment with:
-		 * halmaBoard.addActor(new HalmaStone(this), new Location(0,0)); 
+		 * halmaBoard.addActor(new HalmaStone(this), new Location(0,0));
 		 */
+		for (Location loc : startLocations) {
+			HalmaStone stone = new HalmaStone(this);
+			halmaStones.add(stone);
+			halmaBoard.addActor(stone, loc);
+			halmaBoard.getBg().fillCell(loc, Color.lightGray);
+		}
 		halmaBoard.getBg().drawGridLines(Color.black);
 	}
 
@@ -40,13 +49,13 @@ public class HalmaPlayer {
 	 * @return true if the current Player wins
 	 */
 	public boolean isWinner() {
-		/* 
-		 * TODO: Check, if every stone of this player is on a
-		 * endLocation. 
-		 * Hint: Read the method description above, it may be easier to
-		 * check it that way...
-		 */
-		return true;
+		boolean winner = true;
+		for (HalmaStone stone : halmaStones) {
+			if (!endLocations.contains(halmaBoard.getHalmaStoneOfCurrentPlayerAt(stone.getLocation()))) {
+				winner = false;
+			}
+		}
+		return winner;
 	}
 	
 	public String toString() {
