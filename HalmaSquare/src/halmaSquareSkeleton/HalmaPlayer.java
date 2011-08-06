@@ -50,8 +50,9 @@ public class HalmaPlayer {
 	 */
 	public boolean isWinner() {
 		boolean winner = true;
-		for (HalmaStone stone : halmaStones) {
-			if (!endLocations.contains(halmaBoard.getHalmaStoneOfCurrentPlayerAt(stone.getLocation()))) {
+		for (Location loc : endLocations) {
+			System.out.println(halmaBoard.getHalmaStoneOfCurrentPlayerAt(loc));
+			if (halmaBoard.getHalmaStoneOfCurrentPlayerAt(loc) == null) {
 				winner = false;
 			}
 		}

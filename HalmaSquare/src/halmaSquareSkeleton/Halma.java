@@ -134,8 +134,6 @@ public class Halma extends GameGrid implements GGMouseListener {
 			if (j != 0) l--;
 		}
 		
-		
-		
 		/* TODO: Initialize startLocations[i] and endLocations[i]
 		 * with the according locations (See screenshot).
 		 * 
@@ -184,7 +182,7 @@ public class Halma extends GameGrid implements GGMouseListener {
 			orthoPos = loc1.y;
 			startPos = loc1.x;
 			endPos = loc2.x;
-			for (int i = startPos; i <= endPos; i++) {
+			for (int i = startPos+1; i < endPos; i++) {
 				interjacentLocs.add(new Location(orthoPos, i));
 			}
 		}
