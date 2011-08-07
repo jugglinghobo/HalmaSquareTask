@@ -169,23 +169,6 @@ public class Halma extends GameGrid implements GGMouseListener {
 	 *  x or y coordinate, meaning they're orthogonally situated.
 	 */
 	private ArrayList<Location> getInterjacent(Location loc1, Location loc2) {
-		ArrayList<Location> interjacentLocs = new ArrayList<Location>();
-		int orthoPos;
-		int startPos;
-		int endPos;
-		
-		if (loc1.x == loc2.x) {
-			orthoPos = loc1.x;
-			startPos = loc1.y;
-			endPos = loc2.y;
-		} else {
-			orthoPos = loc1.y;
-			startPos = loc1.x;
-			endPos = loc2.x;
-			for (int i = startPos+1; i < endPos; i++) {
-				interjacentLocs.add(new Location(orthoPos, i));
-			}
-		}
 		
 		/*
 		 * TODO: put all locations between loc1 and loc2 into interjacentLocs.
@@ -194,6 +177,14 @@ public class Halma extends GameGrid implements GGMouseListener {
 		 * http://www.aplu.ch/classdoc/jgamegrid/index.html
 		 */
 		
+		ArrayList<Location> interjacentLocs = new ArrayList<Location>();
+		double direction = loc1.getDirectionTo(loc2);
+		Location interjacentLoc = loc1;
+		while (!interjacentLoc.equals(loc2)) {
+			interjacentLoc = interjacentLoc.getNeighbourLocation(direction);
+			interjacentLocs.add(interjacentLoc);
+		}
+		interjacentLocs.remove(loc2);
 		return interjacentLocs;
 	}
 
